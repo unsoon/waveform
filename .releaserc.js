@@ -4,15 +4,12 @@ const commitGroupsOrder = [
   "bugfixes",
   "tests",
   "refactoring",
-  "ci",
-  "chore",
   "documentation",
-  "styles",
   "dependencies",
 ];
 
 module.exports = {
-  branches: ["main"],
+  branches: ["main", "staging"],
   plugins: [
     "@semantic-release/commit-analyzer",
     [
@@ -22,14 +19,10 @@ module.exports = {
         presetConfig: {
           types: [
             { type: "chore", scope: "deps", section: "Dependencies" },
-            { type: "fix", scope: "deps", section: "Dependencies" },
             { type: "feat", section: "Features" },
             { type: "fix", section: "Bug Fixes" },
-            { type: "chore", section: "Chore" },
             { type: "test", section: "Tests" },
-            { type: "ci", section: "CI" },
             { type: "docs", section: "Documentation" },
-            { type: "style", section: "Styles" },
             { type: "refactor", section: "Refactoring" },
             { type: "perf", section: "Performance" },
           ],
@@ -67,7 +60,13 @@ module.exports = {
       "@semantic-release/git",
       {
         assets: ["package.json", "pnpm-lock.json", "CHANGELOG.md"],
-        message: "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}",
+        message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+      },
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        verifyReleaseCmd: 'echo "version=${nextRelease.version}" >> $GITHUB_OUTPUT',
       },
     ],
   ],

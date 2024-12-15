@@ -16,3 +16,4 @@ jobs:
         with:
           FROM_BRANCH: main
           TO_BRANCH: staging
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
