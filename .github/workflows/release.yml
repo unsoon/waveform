@@ -45,7 +45,8 @@ jobs:
       - name: Create Pull Request
         if: steps.semantic-release.outputs.version != ''
         run: |
-          git push origin HEAD:refs/heads/release/v${{ steps.semantic-release.outputs.version }}
+          git checkout -b release/v${{ steps.semantic-release.outputs.version }}
+          git push origin release/v${{ steps.semantic-release.outputs.version }}
 
           gh pr create \
             --title "Release v${{ steps.semantic-release.outputs.version }}" \
